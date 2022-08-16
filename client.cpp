@@ -95,7 +95,7 @@ void Client::ErrorOccured(QString msg)
 }
 
 void Client::sendPartOfFile() {
-	if(!FileForSending.atEnd()){
+	if(!FileForSending.atEnd() || !socket->isValid()){
 		QByteArray block = FileForSending.read(1024 * 8);
 		sendSize+=block.size();
 		emit progressChanged((int)((double)sendSize/FileForSending.size())+1);

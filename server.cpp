@@ -54,6 +54,10 @@ void Server::slotReadyRead()
 		if(socket->bytesAvailable()==0)socket->waitForReadyRead(100);
 		emit progressChanged((int)((double)receivedSize/fileSize*100)+1);
 		QApplication::processEvents();
+		if(!socket->isValid()){
+			emit sendStatus("Error occured!");
+			return;
+		}
 		QByteArray chunkOfFile = socket->read(1024*8);
 		receivedSize += chunkOfFile.size();
 		data.write(chunkOfFile);
